@@ -1,0 +1,102 @@
+USE [SGX]
+GO
+
+/****** Object:  StoredProcedure [AGG].[USP_INSERT_SPECIFIC_GRAVITY_HDR]    Script Date: 7/14/2023 12:05:47 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*
+CREATE BY		: ROHIT CHAURASIYA
+CREATED DATE	: 12/07/2023
+ [AGG].[USP_INSERT_SPECIFIC_GRAVITY_HDR] NULL,NULL,NULL,'12 July 2023',NULL,'HARD','RED','STRAIGHT','ROUND','DRY','CAl0,'CAl0026'
+*/
+
+alter PROC [AGG].[USP_INSERT_SPECIFIC_GRAVITY_HDR]
+@ERRORSTR					VARCHAR(200) OUTPUT,
+@Test_ID					NUMERIC(18, 0) OUTPUT,
+@Test_No				    VARCHAR(20) OUTPUT,
+@Test_Date				    DATETIME, 
+@Source					    VARCHAR(50),
+@Type				        VARCHAR(50), 
+@Colour				        VARCHAR(20), 
+@Texture					VARCHAR(20),
+@Shape			         	VARCHAR(20),
+@Rock_Type					VARCHAR(20),
+@Tested_By                   CHAR(7),
+@Qc_Incharge                CHAR(7),
+@Added_By                   CHAR(7),
+@Determination		    	VARCHAR(50),
+@Sample_Wt				    NUMERIC(18,2),
+@Wb_Agg_Wt					NUMERIC(18,2),
+@Dry_Agg_Wt					NUMERIC(18,2),
+@Oven_Dry_Agg_Wt			NUMERIC(18,2)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SET @ERRORSTR='' 
+  DECLARE @IDTEMP INT      
+SELECT @IDTEMP = MAX(CAST(left(RIGHT(Test_No,7),7) AS INT) ) FROM [AGG].[Tbl_SPECIFIC_GRAVITY_HDR]
+SELECT @IDTEMP=CASE WHEN @IDTEMP IS NULL THEN 1  ELSE @IDTEMP + 1  END      
+
+SELECT @Test_No = 'TEST' +Replicate('0',7 - len(@IDTEMP)) + cast(@IDTEMP as varchar) 
+
+
+	INSERT INTO [AGG].[Tbl_SPECIFIC_GRAVITY_HDR]
+			   ([Test_No]
+			   ,[Test_Date]
+			   ,[Source]
+			   ,[Type]		
+			   ,[Colour]
+			   ,[Texture]	
+			   ,[Shape]
+			   ,[Rock_Type]		
+			   ,[Tested_By] 
+			   ,[Qc_Incharge]
+			   ,[Added_By]  
+			   ,[Added_On] 
+			   ,[Determination]
+			   ,[Sample_Wt]
+			   ,[Wb_Agg_Wt]
+			   ,[Dry_Agg_Wt]
+			   ,[Oven_Dry_Agg_Wt]
+			   )
+		 VALUES
+			   (@Test_No,
+			    @Test_Date,
+			    @Source	,				  
+				@Type	,			        
+				@Colour,				        
+				@Texture,					
+				@Shape	,		         	
+				@Rock_Type	,				
+				@Tested_By  ,               
+				@Qc_Incharge   ,                              
+				@Added_By  ,
+				GETDATE(),
+				@Determination	,
+				@Sample_Wt	,	
+				@Wb_Agg_Wt	,	
+				@Dry_Agg_Wt		,
+				@Oven_Dry_Agg_Wt  
+				  )
+
+	SET @Test_ID = (SELECT SCOPE_IDENTITY())         
+
+		IF @@ERROR <> 0
+		BEGIN
+			SET @ERRORSTR = 'DATA BASE ERROR OCCUR FOR TABLE SPECIFIC GRAVITY HDR !'
+			SET @Test_ID = -1		
+			RETURN
+		END
+ 
+END
+
+
+
+GO
+
+

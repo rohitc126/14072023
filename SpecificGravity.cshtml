@@ -1,0 +1,481 @@
+﻿@model BusinessLayer.Entity.Specific_Gravity_Abs
+
+@{
+    ViewBag.Title = "SpecificGravity";
+    Layout = "~/Views/Shared/_MainDashboard.cshtml";
+}
+
+@using (Html.BeginForm("SpecificGravity", "Specific", FormMethod.Post, new { @id = "frmSpecificGravity" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    Html.RenderPartial("_Alerts");
+
+    <div class="pd-20 card-box mb-30">
+        <div class="form-group row">
+            <label class="col-sm-12 col-md-2 bold">Test No</label>
+            <div class="col-sm-12 col-md-4">
+                :  <span id="spnTest_No" style="color: red;font-weight:bold;">@Model.Test_No</span>
+            </div>
+            <label class="col-sm-12 col-md-2 col-form-label required">Date</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Date, new { @class = "form-control datetimepicker", @id = "txtDate", @autocomplete = "off", @data_placeholder = "Select Date", @readOnly = true })
+                <span id="spnErr_txtDate" class="field-validation-error"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 col-md-2 col-form-label required">Source</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Source, new { @class = "form-control", @id = "txtSource", @autocomplete = "off", @maxlength = "75", @style = "text-transform:upperCase;", @placeholder = "Auto Extender Source/Name" })
+                <span id="spnCodeMessage_txtSource" style="font-size:12px;font-style:italic;color:red;"></span>
+            </div>
+            <label class="col-sm-12 col-md-2 col-form-label required">Type</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Type, new { @class = "form-control", @id = "txtType", @autocomplete = "off", @data_placeholder = "Enter Type" })
+                <span id="spnErr_txtDate" class="field-validation-error"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 col-md-2 col-form-label required">Colour</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Colour, new { @class = "form-control", @id = "txtColour", @autocomplete = "off", @maxlength = "75", @data_placeholder = "Enter Colour" })
+                <span id="spnCodeMessage_txtColour" style="font-size:12px;font-style:italic;color:red;"></span>
+            </div>
+            <label class="col-sm-12 col-md-2 col-form-label required">Texture</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Texture, new { @class = "form-control", @id = "txtTexture", @autocomplete = "off", @data_placeholder = "Enter Texture" })
+                <span id="spnErr_txtTexture" class="field-validation-error"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 col-md-2 col-form-label required">Shape</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Shape, new { @class = "form-control", @id = "txtShape", @autocomplete = "off", @maxlength = "75", @data_placeholder = "Enter Shape" })
+                <span id="spnCodeMessage_txtShape" style="font-size:12px;font-style:italic;color:red;"></span>
+            </div>
+            <label class="col-sm-12 col-md-2 col-form-label required">Rock Type</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.TextBoxFor(x => x.Rock_Type, new { @class = "form-control", @id = "txtRock_Type", @autocomplete = "off", @data_placeholder = "Enter Rock Type" })
+                <span id="spnErr_Rock_Type" class="field-validation-error"></span>
+            </div>
+        </div>
+      
+        <div class="card-box mb-30" style="padding:10px;">
+
+            <div class="table-responsive">
+                <table class="table table-bordered" style="font-size: 10px; padding: 0px; margin: 0px;width:955px " id="tblList">
+
+                    <thead>
+                        <tr>
+                            <th style="width: 5px;text-align: center;">SR No:</th>
+                            <th style="width: 414px;text-align: center;">Determination</th>
+                            <th style="width: 120px;text-align: center;">Formula</th>
+                            <th style="width: 150px; text-align: center;">Sample I</th>
+                            <th style="width: 150px;text-align:center;">Sample II</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tbodyList">
+                      
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(1) </span>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination, new { @class = "form-control numeric", @id = "txtDetermination", @autocomplete = "off", placeholder = "wt.of sample as received /taken for test after washing , gms" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula, new { @class = "form-control numeric", @id = "txtFormula", @autocomplete = "off", })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Sample_Wt, new { @class = "form-control numeric", @id = "txtSample", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.Sample_Wt1, new { @class = "form-control numeric", @id = "txtSamp", @autocomplete = "off" })
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(2) </span>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination1, new { @class = "form-control numeric", @id = "txtDetermination1", @autocomplete = "off", placeholder = "wt.of wire basket + Aggregate in water" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula1, new { @class = "form-control numeric", @id = "txtFormula1", @autocomplete = "off", placeholder = "A1", value = "" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Wb_Agg_Wt, new { @class = "form-control numeric", @id = "txtSample1", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.Wb_Agg_Wt1, new { @class = "form-control numeric", @id = "txtSamp1", @autocomplete = "off" })
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(3) </span>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination2, new { @class = "form-control numeric", @id = "txtDetermination2", @autocomplete = "off", placeholder = "wt.of wire basket in water" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula2, new { @class = "form-control numeric", @id = "txtFormula2", @autocomplete = "off", placeholder = "A2" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Wb_Wt, new { @class = "form-control numeric", @id = "txtSample2", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.Wb_Wt1, new { @class = "form-control numeric", @id = "txtSamp2", @autocomplete = "off" })
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(4) </span>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination3, new { @class = "form-control numeric", @id = "txtDetermination3", @autocomplete = "off", placeholder = "wt.of saturated aggregate in water(A)" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula3, new { @class = "form-control numeric", @id = "txtFormula3", @autocomplete = "off", placeholder = "A1-A2" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.SA_WT, new { @class = "form-control numeric", @id = "txtSample3", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.SA_WT1, new { @class = "form-control numeric", @id = "txtSamp3", @autocomplete = "off" })
+                                </td>*@
+                            </tr>
+                            <tr>
+
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(5) </span>
+                                </td>
+
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination4, new { @class = "form-control numeric", @id = "txtDetermination4", @autocomplete = "off", placeholder = "wt.of saturated Surface dry aggregate in Air(B)" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula4, new { @class = "form-control numeric", @id = "txtFormula4", @autocomplete = "off", placeholder = "B" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Dry_Agg_Wt, new { @class = "form-control numeric", @id = "txtSample4", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.Dry_Agg_W1, new { @class = "form-control numeric", @id = "txtSamp4", @autocomplete = "off" })
+                                </td>*@
+
+
+
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(6) </span>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination5, new { @class = "form-control numeric", @id = "txtDetermination5", @autocomplete = "off", placeholder = "wt.of oven-dried aggregate in Air" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula5, new { @class = "form-control numeric", @id = "txtFormula5", @autocomplete = "off", placeholder = "C" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Oven_Dry_Agg_Wt, new { @class = "form-control numeric", @id = "txtSample5", @autocomplete = "off" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.Oven_Dry_Agg_Wt1, new { @class = "form-control numeric", @id = "txtSamp5", @autocomplete = "off" })
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(7) </span>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination6, new { @class = "form-control numeric", @id = "txtDetermination6", @autocomplete = "off", placeholder = "Specific Gravity" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula6, new { @class = "form-control numeric", @id = "txtFormula6", @autocomplete = "off", placeholder = "C/(B-A)" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.SP_SG, new { @class = "form-control numeric", @id = "txtSample6", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.SP_SG1, new { @class = "form-control numeric", @id = "txtSamp6", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>*@
+
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(8) </span>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination7, new { @class = "form-control numeric", @id = "txtDetermination7", @autocomplete = "off", placeholder = "Apparent Specific Gravity" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula7, new { @class = "form-control numeric", @id = "txtFormula7", @autocomplete = "off", placeholder = "C(C-A)" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.APP_SG, new { @class = "form-control numeric", @id = "txtSample7", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.APP_SG1, new { @class = "form-control numeric", @id = "txtSamp7", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>*@
+
+                            </tr>
+                            <tr>
+                                <td data-title="SR. No." style="text-align: center; padding-top: 17px;">
+                                    <span id="spnSrNo_"> @(9) </span>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtDetermination8, new { @class = "form-control numeric", @id = "txtDetermination8", @autocomplete = "off", placeholder = "Water Abosrption in %" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.txtFormula8, new { @class = "form-control numeric", @id = "txtFormula8", @autocomplete = "off", placeholder = "(B-C)*100/C" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.WA_AB, new { @class = "form-control numeric", @id = "txtSample8", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>
+                                @*<td>
+                                    @Html.TextBoxFor(model => model.WA_AB1, new { @class = "form-control numeric", @id = "txtSamp8", @autocomplete = "off", @ReadOnly = "True" })
+                                </td>*@
+                            </tr>
+
+                        
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-12 col-md-2 col-form-label">Tested By</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.DropDownListFor(x => x.TESTED_BY, Model.EMPLOYEE_LIST, "Select Tested By", new { @class = "custom-select2 form-control", @id = "ddlTESTED_BY", @data_placeholder = "Select Tested By", @style = "width: 100%;" })
+                @Html.ValidationMessageFor(x => x.TESTED_BY, "", new { @id = "spnErr_ddlTestedBy" })
+            </div>
+            <label class="col-sm-12 col-md-2 col-form-label">Checked By</label>
+            <div class="col-sm-12 col-md-4">
+                @Html.DropDownListFor(x => x.QC_INCHARGE, Model.EMPLOYEE_LIST, "Select Checked By", new { @class = "custom-select2 form-control", @id = "ddlQC_INCHARGE", @data_placeholder = "Select Checked By", @style = "width: 100%;" })
+                @Html.ValidationMessageFor(x => x.QC_INCHARGE, "", new { @id = "spnErr_ddlCheckedBy" })
+            </div>
+        </div>
+       
+        <div class="form-group row">
+          
+            <div class="col-md-12" style="padding-top:5px; padding-bottom:15px; padding-right:13px;text-align:center;">
+
+                <input type="submit" class="btn btn-success" value="Save" name="Save" style="width:auto;" id="btnSubmit" />
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/Custom/customValidation.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+
+
+            var sampleText = 'wt.of sample as received /taken for test after washing , gms';
+
+            $('#txtDetermination').val(sampleText);
+            $('#txtDetermination').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+            $('#txtDetermination').on('blur', function () {
+                if ($(this).val() === '') {
+                    $(this).val(sampleText);
+                }
+                $(this).prop('readonly', true);
+            });
+
+            var sampleText1 = 'wt.of wire basket + Aggregate in water';
+            var formula1 = 'A1'
+            $('#txtDetermination1').val(sampleText1);
+            $('#txtFormula1').val(formula1);
+            $('#txtDetermination1,#txtFormula1').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+
+            var sampleText2 = 'wt.of wire basket in water';
+            var formula2 = 'A2'
+            $('#txtDetermination2').val(sampleText2);
+            $('#txtFormula2').val(formula2);
+            $('#txtDetermination2,#txtFormula2').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+            var sampleText3 = 'wt.of saturated aggregate in water(A)';
+            var formula3 = 'A1-A2'
+            $('#txtDetermination3').val(sampleText3);
+            $('#txtFormula3').val(formula3);
+            $('#txtDetermination3,#txtFormula3').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+
+            var sampleText4 = 'wt.of saturated Surface dry aggregate in Air(B)';
+            var formula4 = 'B'
+            $('#txtDetermination4').val(sampleText4);
+            $('#txtFormula4').val(formula4);
+            $('#txtDetermination4,#txtFormula4').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+
+            var sampleText5 = 'wt.of oven-dried aggregate in Air';
+            var formula5 = 'C'
+            $('#txtDetermination5').val(sampleText5);
+            $('#txtFormula5').val(formula5);
+            $('#txtDetermination5,#txtFormula5').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+
+            var sampleText6 = 'Specific Gravity';
+            var formula6 = 'C/(B-A)'
+            $('#txtDetermination6').val(sampleText6);
+            $('#txtFormula6').val(formula6);
+            $('#txtDetermination6').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+            var sampleText7 = 'Apparent Specific Gravity';
+            var formula7 = 'C/(C-A)'
+            $('#txtDetermination7').val(sampleText7);
+            $('#txtFormula7').val(formula7);
+            $('#txtDetermination7,#txtFormula7').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+            var sampleText8 = 'Water Abosrption in %';
+            var formula8 = '(B-C)*100/C'
+            $('#txtDetermination8').val(sampleText8);
+            $('#txtFormula8').val(formula8);
+            $('#txtDetermination8').on('focus', function () {
+                $(this).prop('readonly', false);
+            });
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSample1').val()) || 0;
+                var formula2 = parseFloat($('#txtSample2').val()) || 0;
+                var result = formula1 - formula2;
+                $('#txtSample3').val(result);
+            });
+
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSamp1').val()) || 0;
+                var formula2 = parseFloat($('#txtSamp2').val()) || 0;
+                var result = formula1 - formula2;
+                $('#txtSamp3').val(result);
+            });
+
+            //  Formula for C/(B-A)
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSample4').val()) || 0;
+                var formula2 = parseFloat($('#txtSample3').val()) || 0;
+                var formula3 = parseFloat($('#txtSample5').val()) || 0;
+                var result = formula3 / (formula1 - formula2);
+
+                if (isNaN(result)) {
+                    $('#txtSample6').val("");
+                }
+                else {
+                    $('#txtSample6').val(result);
+                }
+            });
+
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSamp4').val()) || 0;
+                var formula2 = parseFloat($('#txtSamp3').val()) || 0;
+                var formula3 = parseFloat($('#txtSamp5').val()) || 0;
+                var result = formula1 - formula2;
+                if (isNaN(result)) {
+                    $('#txtSamp6').val("");
+                }
+                else {
+                    $('#txtSamp6').val(result);
+                }
+
+            });
+
+            //  Formula for C/(C-A)
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSample5').val()) || 0;
+                var formula2 = parseFloat($('#txtSample3').val()) || 0;
+                var result = formula1 / (formula1 - formula2);
+
+                if (isNaN(result)) {
+                    $('#txtSample7').val("");
+                }
+                else {
+                    $('#txtSample7').val(result);
+                }
+            });
+
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSamp5').val()) || 0;
+                var formula2 = parseFloat($('#txtSamp3').val()) || 0;
+                var result = formula1 / (formula1 - formula2);
+                if (isNaN(result)) {
+                    $('#txtSamp7').val("");
+                }
+                else {
+                    $('#txtSamp7').val(result);
+                }
+            });
+
+
+            // Formula for (B-C)*100/C
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSample4').val()) || 0;
+                var formula2 = parseFloat($('#txtSample5').val()) || 0;
+                var result = (formula1 - formula2) * 100 / formula2;
+                if (isNaN(result)) {
+                    $('#txtSample8').val("");
+                }
+                else {
+                    $('#txtSample8').val(result);
+                }
+            });
+
+
+            $('.numeric').on('input', function () {
+                var formula1 = parseFloat($('#txtSamp4').val()) || 0;
+                var formula2 = parseFloat($('#txtSamp5').val()) || 0;
+                var result = (formula1 - formula2) * 100 / formula2;
+                if (isNaN(result)) {
+                    $('#txtSamp8').val("");
+                }
+                else {
+                    $('#txtSamp8').val(result);
+                }
+            });
+
+        });
+
+    });
+
+
+    </script>
